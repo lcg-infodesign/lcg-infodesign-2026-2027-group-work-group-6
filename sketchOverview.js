@@ -1,4 +1,4 @@
-
+//array colori per le età
 let coloriEta = [
   "#52B5D5",
   "#8383F7",
@@ -9,243 +9,103 @@ let coloriEta = [
   "#54B8A0"
 ];
 
-// variabili principali
-let database;
-let bottoneOrdina;
-let bottoneDettaglio;
-let ordinaAttivo = false;
-let palliniCasuali = [];
+//array colori per sfondo pezzi puzzle
+let coloriPuzzle = [
+  "#C4E2EB",
+  "#D3D3F6",
+  "#F2BBCC",
+  "#F4DEEE",
+  "#F2C9B8",
+  "#F5E7C0",
+  "#C5E3DC"
+];
+
+//array fasce d'età
+let fasceEta = [
+  "18 - 24",
+  "25 - 34",
+  "35 - 44",
+  "45 - 54",
+  "55 - 64",
+  "65 - 74",
+  "75 +"
+];
+
+//salvo a quantti px voglio lasciare di margine laterale
+let marginePagina = 47;
+//gutter
+let spazioColonne = 20;
+
+let larghezzaColonna;
+let xSinistra;  //serve per indicare la posizione orizzontale di titolo
+let ySinistra;
+let larghezzaSinistra;  //salva le colonne da sinistra usate
 
 
-// inizializzare il progetto e caricare il database
-async function setup() {
-  createCanvas(windowWidth, windowHeight);
+function setup() {
+
+  let canvas = createCanvas(windowWidth, windowHeight - 62);  //-62 perchè l'header viene creato prima, quindi la pagina inizia più sotto
+
+  canvas.style("display", "block");  //canvas = elemento tipo blocco
+
   noStroke();
 
-  // caricare il database
-  database = await loadTable("assets/databaseEtaGenere.csv", ",", "header");
-
-  // generare le disposizioni casuali
-  generaPalliniCasuali();
+  //griglia di 12 colonne
+  larghezzaColonna = (width - 2 * marginePagina - 11 * spazioColonne) / 12;
 
 
-  // creare il bottone ORDINA
-  bottoneOrdina = createButton("ORDINA");
-  bottoneOrdina.position(windowWidth - 330, windowHeight - 103);
-  bottoneOrdina.size(76, 76);
-  bottoneOrdina.style("background-color", "#E9DCCA");
-  bottoneOrdina.style("color", "#47403C");
-  bottoneOrdina.style("border", "none");
-  bottoneOrdina.style("border-radius", "50%");
-  bottoneOrdina.style("font-family", "Instrument Sans");
-  bottoneOrdina.style("font-size", "13px");
+  //variabili che useremo per scrivere il testo
+  xSinistra = marginePagina;
+  ySinistra = 15;
 
-
-  // creare il bottone VAI AL DETTAGLIO
-  bottoneDettaglio = createButton("VAI AL DETTAGLIO →");
-  bottoneDettaglio.position(windowWidth - 220, windowHeight - 89);
-  bottoneDettaglio.size(180, 48);
-  bottoneDettaglio.style("background-color", "#E9DCCA");
-  bottoneDettaglio.style("color", "#47403C");
-  bottoneDettaglio.style("border", "none");
-  bottoneDettaglio.style("border-radius", "12px");
-  bottoneDettaglio.style("font-family", "Instrument Sans");
-  bottoneDettaglio.style("font-size", "14px");
-
-
-  // cambiare l'aspetto del bottone quando viene premuto
-  bottoneOrdina.mousePressed(function() {
-
-    ordinaAttivo = !ordinaAttivo;
-
-    if (ordinaAttivo) {
-      bottoneOrdina.style("background-color", "#47403C");
-      bottoneOrdina.style("color", "#FFFDF5");
-    } else {
-      bottoneOrdina.style("background-color", "#E9DCCA");
-      bottoneOrdina.style("color", "#47403C");
-    }
-
-  });
-
-
-  // passare alla pagina di dettaglio
-  bottoneDettaglio.mousePressed(function() {
-    window.location.href = "dettaglio.html";
-  });
+  //9 colonne per titolo
+  larghezzaSinistra = 9 * larghezzaColonna + 8 * spazioColonne;
 
 }
 
 
-// disegnare la pagina
 function draw() {
-  background("#FFFDF5");
 
-  // calcolare le distanze tra i pallini
-  let distanzaX = width / 8;
-  let distanzaPallini = min(12, distanzaX / 5);
-  let diametroPallini = min(9, distanzaPallini * 0.7);
-  let spazioVerticale = max(5, min(12, (height / 2 - 195) / 20));
+  background("#F1F1F1");
+  textFont("Instrument Sans");
+  textAlign(LEFT, TOP);
 
+  //titolo
+  fill("#1E1E1E");
 
-  // disegnare il titolo DONNE
-  textAlign(CENTER);
-  textSize(16);
-  fill("#47403C");
+  textSize(46);
+  textStyle(BOLD);
+  textLeading(50);
 
-  text("DONNE", width / 2, 25);
+  text(
+    "Chi si prende cura degli\naltri e per quanto tempo?",
+    xSinistra,
+    ySinistra
+  );
 
+  //sottotitolo
+  fill("#444444");
+  textSize(22);
+  textStyle(ITALIC);
 
-  // disegnare i dati delle donne
-  disegnaGenere(8, 0, 45, distanzaX, distanzaPallini,
-    diametroPallini, spazioVerticale);
+  let ySottotitolo = ySinistra + 107;
 
+  //Italia creo una variabile perchè mi serve poi calcolare lo sppazio che il testo occupa in larghezza
+  let testoItalia = "Italia, ";
+  text(testoItalia, xSinistra, ySottotitolo);
+  
+  //2024 grassetto
+  let xAnno = xSinistra + textWidth(testoItalia); //funzione che calcola la larghezza del testo
+  textStyle(BOLDITALIC);
 
-  // linea di divisione tra le due parti
-  stroke("#E9DCCA");
-  strokeWeight(1);
-  line(30, height / 2, width - 30, height / 2);
-  noStroke();
+  text("2024", xAnno, ySottotitolo);
 
+  //dopo 2024
+  let xTesto = xAnno + textWidth("2024");
+  textStyle(ITALIC);
 
-  // disegnare il titolo UOMINI
-  textAlign(CENTER);
-  textSize(16);
-  fill("#47403C");
-
-  text("UOMINI", width / 2, height / 2 + 25);
-
-
-  // disegnare i dati degli uomini
-  disegnaGenere(16, 1, height / 2 + 45, distanzaX,
-    distanzaPallini, diametroPallini, spazioVerticale);
-
-}
-
-
-// leggere e disegnare i dati di un genere
-function disegnaGenere(rigaIniziale, indiceGenere, yIniziale,
-  distanzaX, distanzaPallini, diametroPallini, spazioVerticale) {
-
-  let percentualiEta = [];
-
-
-  // leggere le percentuali dal database
-  for (let i = 0; i < 7; i++) {
-
-    percentualiEta[i] = database.getNum(
-      rigaIniziale + i,
-      "tavola_2_persone_che_hanno_fornito_almeno_1_aiuto"
-    );
-
-  }
-
-
-  // disegnare le sette colonne
-  for (let i = 0; i < 7; i++) {
-
-    for (let j = 0; j < 20; j++) {
-
-      for (let k = 0; k < 5; k++) {
-
-        // calcolare la posizione del pallino nell'array
-        let posizione = (19 - j) * 5 + k;
-
-
-        // colorare i pallini in base alla modalità scelta
-        if (ordinaAttivo) {
-
-          if (posizione < percentualiEta[i]) {
-            fill(coloriEta[i]);
-          } else {
-            fill("#E9DCCA");
-          }
-
-        } else {
-
-          if (palliniCasuali[indiceGenere][i][posizione] == true) {
-            fill(coloriEta[i]);
-          } else {
-            fill("#E9DCCA");
-          }
-
-        }
-
-
-        noStroke();
-
-        let x = distanzaX * (i + 1) + k * distanzaPallini;
-        let y = yIniziale + j * spazioVerticale;
-
-        circle(x, y, diametroPallini);
-
-      }
-
-    }
-
-  }
-
-
-  // scrivere le fasce d'età e le percentuali
-  textAlign(CENTER);
-  textSize(12);
-  fill("#47403C");
-
-  for (let i = 0; i < 7; i++) {
-
-    let fasciaEta = database.get(
-      rigaIniziale + i,
-      "fascia_eta"
-    );
-
-    let x = distanzaX * (i + 1) + 2 * distanzaPallini;
-    let y = yIniziale + 20 * spazioVerticale + 16;
-
-    text(fasciaEta, x, y);
-    text(percentualiEta[i] + "%", x, y + 17);
-
-  }
-
-}
-
-
-// generare una disposizione casuale dei pallini
-function generaPalliniCasuali() {
-
-  let righeIniziali = [8, 16];
-
-  for (let g = 0; g < 2; g++) {
-
-    palliniCasuali[g] = [];
-
-    for (let i = 0; i < 7; i++) {
-
-      palliniCasuali[g][i] = [];
-
-      // inizializzare cento posizioni non colorate
-      for (let j = 0; j < 100; j++) {
-        palliniCasuali[g][i][j] = false;
-      }
-
-      // scegliere casualmente quanti pallini colorare in base alla percentuale
-      for (let j = 0; j < ceil(database.getNum(
-        righeIniziali[g] + i,
-        "tavola_2_persone_che_hanno_fornito_almeno_1_aiuto"
-      )); j++) {
-
-        let posizione = ceil(random(0, 99));
-
-        // se la posizione è già occupata, sceglierne un'altra
-        while (palliniCasuali[g][i][posizione] == true) {
-          posizione = ceil(random(0, 99));
-        }
-
-        palliniCasuali[g][i][posizione] = true;
-
-      }
-
-    }
-
-  }
+  text(
+    ". Intensità dell’aiuto informale per genere e fasce d’età.", xTesto, ySottotitolo
+  );
 
 }
