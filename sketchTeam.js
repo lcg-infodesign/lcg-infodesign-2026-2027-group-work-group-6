@@ -72,29 +72,36 @@ async function setup(){
 }
 
 function draw(){
-    background('#FFFDF5');
+    background('#F1F1F1');
     
 //titolo
-fill('#47403C');
+fill('#1E1E1E');
 noStroke();
+
+textFont("Instrument Sans");
 textAlign(LEFT);
+textFont("Instrument Sans");
 textStyle(BOLD);
-textSize(28);
-text("Sei persone,\nun unico progetto", 40, 45);
+textSize(49);
+textLeading(48);
+text("Sei persone,\nun unico progetto", 40, 55);
+
+//sottotitolo
+fill('#444444');
 
 textStyle(ITALIC);
 textSize(15);
-text("Ogni pezzo di puzzle contribuisce all’insieme.", 40, 110);
+text("Ogni pezzo di puzzle contribuisce all’insieme.", 40, 130);
 
 
 textStyle(ITALIC);
 textSize(15);
-text("Come nelle reti di aiuto che abbiamo indagato, anche questo progetto nasce dalla collaborazione.", 40, 130);
+text("Come nelle reti di aiuto che abbiamo indagato, anche questo progetto nasce dalla collaborazione.", 40, 150);
 textStyle(NORMAL);
-text("Passa il mouse sulle tessere per conoscere il team!", 40, 170);
+text("Passa il mouse sulle tessere per conoscere il team!", 40, 180);
 
 //scritta sotto
-fill('#47403C');
+fill('#1E1E1E');
 textSize(9);
 textAlign(LEFT);
 text("Politecnico di Milano | Corso di laurea in Design della comunicazione | Information Design | Anno accademico 26/27", 40, height -20);
