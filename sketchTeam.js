@@ -13,7 +13,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-01.svg"),
     retro : await loadImage("assets/facce-01Retro.svg"),
     posX : -95,
-    posY : -290,
+    posY : -240,
     
 
     girato : false
@@ -23,7 +23,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-02.svg"),
     retro : await loadImage("assets/facce-02Retro.svg"),
     posX : -110,
-    posY : -295,
+    posY : -245,
     
     
     girato : false
@@ -33,7 +33,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-03.svg"),
     retro : await loadImage("assets/facce-03Retro.svg"),
     posX : -125,
-    posY : -295,
+    posY : -245,
     
 
     girato : false
@@ -43,7 +43,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-04.svg"),
     retro : await loadImage("assets/facce-04Retro.svg"),
     posX : -100,
-    posY : -310,
+    posY : -260,
     
     
     girato : false
@@ -53,7 +53,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-05.svg"),
     retro : await loadImage("assets/facce-05Retro.svg"),
     posX : -110,
-    posY : -305,
+    posY : -255,
     
     
     girato : false
@@ -63,7 +63,7 @@ async function setup(){
     fronte : await loadImage("assets/facce-06.svg"),
     retro : await loadImage("assets/facce-06Retro.svg"),
     posX : -120,
-    posY : -315,
+    posY : -265,
    
     
     girato : false
@@ -82,23 +82,24 @@ textFont("Instrument Sans");
 textAlign(LEFT);
 textFont("Instrument Sans");
 textStyle(BOLD);
-textSize(49);
-textLeading(48);
-text("Sei persone,\nun unico progetto", 40, 55);
+textSize(50);
+textLeading(49);
+text("Sei persone,\nun unico progetto", 40, 60);
 
 //sottotitolo
 fill('#444444');
 
-textStyle(ITALIC);
-textSize(15);
-text("Ogni pezzo di puzzle contribuisce all’insieme.", 40, 130);
+textStyle(BOLDITALIC);
+textSize(28);
+text("Ogni pezzo di puzzle contribuisce all’insieme.", 40, 140);
 
 
 textStyle(ITALIC);
-textSize(15);
-text("Come nelle reti di aiuto che abbiamo indagato, anche questo progetto nasce dalla collaborazione.", 40, 150);
+textSize(28);
+text("Come nelle reti di aiuto che abbiamo indagato, anche questo progetto nasce dalla collaborazione.", 40, 165);
 textStyle(NORMAL);
-text("Passa il mouse sulle tessere per conoscere il team!", 40, 180);
+
+text("Passa il mouse sulle tessere per conoscere il team!", 40, 195);
 
 //scritta sotto
 fill('#1E1E1E');
@@ -119,13 +120,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 420, 270);
+    text("Ruolo", 420, 310);
 
 
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("SOFIA\nD'AURIA", 500, 340);
+    textLeading(20);
+    text("SOFIA\nD'AURIA", 500, 380);
        
     }
 
@@ -142,13 +144,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 660, 250);
+    text("Ruolo", 660, 290);
 
   
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("BEATRICE\nZUILA\nMURATAORI", 750, 340);
+    textLeading(20);
+    text("BEATRICE\nZUILA\nMURATAORI", 750, 380);
        
     }
 
@@ -165,13 +168,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 920, 250);
+    text("Ruolo", 920, 290);
 
   
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("STELLA\nLUCREZIA\nNGOLONG", 1000, 340);
+    textLeading(20);
+    text("STELLA\nLUCREZIA\nNGOLONG", 1000, 380);
        
     }
 
@@ -188,13 +192,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 420, 500);
+    text("Ruolo", 420, 540);
 
    
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("LAURA\nPETRALIA", 500, 580);
+    textLeading(20);
+    text("LAURA\nPETRALIA", 500, 620);
        
     }
 
@@ -211,13 +216,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 660, 500);
+    text("Ruolo", 660, 540);
 
     
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("GAIA\nRESTELLI", 750, 580);
+    textLeading(20);
+    text("GAIA\nRESTELLI", 750, 620);
        
     }
 
@@ -234,13 +240,14 @@ text("Politecnico di Milano | Corso di laurea in Design della comunicazione | In
     textAlign(LEFT, TOP);
     textStyle(BOLD);
     textSize(16);
-    text("Ruolo", 900, 500);
+    text("Ruolo", 900, 540);
 
     // NOME: sotto e centrato
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(16);
-    text("ELVIRA\nSANNINO", 1000, 580);
+    textLeading(20);
+    text("ELVIRA\nSANNINO", 1000, 620);
        
     }
 
