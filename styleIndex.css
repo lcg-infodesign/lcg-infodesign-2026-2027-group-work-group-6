@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+/* HOME: variabili usate solo da questa pagina */
+:root {
+  --larghezza-colonna: calc((100vw - 2 * var(--margine-pagina) - 11 * var(--spazio-colonne)) / 12); /* larghezza di una colonna: usa i margini già definiti in style.css */
+  --u: min(1vw, 1.4vh); /* unità della home: 1% della larghezza, ma mai più di 1,4% dell'altezza */
+}
+
+/* HOME: LAYOUT */
+.home-contenuto {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--spazio-colonne);
+  padding: calc(4.7 * var(--u)) var(--margine-pagina) 0;
+  box-sizing: border-box;
+  align-items: start;
+}
+
+.colonna-testi {
+  grid-column: 1 / 7;
+  padding-left: calc(var(--larghezza-colonna) / 2);
+  padding-top: calc(5.2 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.piastrella {
+  grid-column: 7 / 13;
+  justify-self: end;
+  width: calc(46 * var(--u));
+  box-sizing: border-box;
+  margin-top: calc(-7.2 * var(--u));
+  margin-right: calc(var(--larghezza-colonna) / 2);
+  padding: calc(2.8 * var(--u)) calc(3.8 * var(--u)) calc(2.2 * var(--u)) calc(3.1 * var(--u));
+  background-color: #F1F1F1;
+  border-radius: calc(2.8 * var(--u));
+  box-shadow:
+    -10px -10px 30px 0px #FFFFFF,
+    8px 8px 24px 0px #AEAEC0;
+}
+
+/* HOME: TITOLO E SOTTOTITOLO */
+.intestazione {
+  grid-column: 1 / -1;
+  padding-left: calc(var(--larghezza-colonna) / 2);
+  margin-bottom: calc(1.8 * var(--u));
+}
+
+.intestazione h1 {
+  margin: 0;
+  font-size: calc(5.55 * var(--u));
+  line-height: 0.98;
+  font-weight: 700;
+  text-box: trim-both cap alphabetic;
+}
+
+.sottotitolo {
+  margin: calc(1.9 * var(--u)) 0 0 0;
+  font-size: calc(2.68 * var(--u));
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+  text-box: trim-both cap alphabetic;
+}
+
+/* HOME: NUMERO E TESTI SOTTO */
+.numero {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(1.2 * var(--u));
+}
+
+.numero-grande {
+  font-size: calc(14.5 * var(--u));
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-box: trim-both cap alphabetic;
+}
+
+.numero-su {
+  font-size: calc(4.2 * var(--u));
+  font-weight: 700;
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+}
+
+.descrizione {
+  margin: calc(2.1 * var(--u)) 0 0 0;
+  max-width: calc(43 * var(--u));
+  font-size: calc(2.8 * var(--u));
+  color: #444444;
+  font-weight: 700;
+  line-height: 1.05;
+  text-box: trim-both cap alphabetic;
+}
+
+.fonte {
+  margin: calc(1.6 * var(--u)) 0 0 0;
+  font-size: calc(1.26 * var(--u));
+  line-height: 1.2;
+  text-box: trim-both cap alphabetic;
+}
+
+/* HOME: PUZZLE E LEGENDA */
+.puzzle {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: #C6C6C8;
+  border-radius: calc(3.1 * var(--u));
+}
+
+.puzzle::after {
+  content: "";
+  position: absolute;
+  top: 18.4%;
+  right: calc(-2.95 * var(--u));
+  width: calc(5.9 * var(--u));
+  height: calc(5.9 * var(--u));
+  background-color: #C6C6C8;
+  border-radius: 50%;
+}
+
+.puzzle canvas { /* era "canvas": ora vale solo per il canvas dentro il puzzle, così gli altri canvas del sito non cambiano */
+  display: block;
+}
+
+.legenda-titolo {
+  margin: calc(1 * var(--u)) 0 0 0;
+  font-size: calc(1 * var(--u));
+}
+
+.legenda {
+  display: flex;
+  gap: calc(4.9 * var(--u));
+  margin-top: calc(0.7 * var(--u));
+  font-size: calc(0.9 * var(--u));
+}
+
+.voce-scura::before, .voce-chiara::before {
+  content: "";
+  display: inline-block;
+  width: calc(0.8 * var(--u));
+  height: calc(0.8 * var(--u));
+  margin-right: calc(0.3 * var(--u));
+  border-radius: 50%;
+}
+
+.voce-scura::before {
+  background-color: #404040;
+}
+
+.voce-chiara::before {
+  background-color: #FFFFFF;
+}
+
+/* HOME: PULSANTE ESPLORA I DATI */
+.pulsante-esplora {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(1.8 * var(--u));
+  align-self: flex-start;
+  margin-top: auto;
+  margin-bottom: calc(4 * var(--u));
+  padding: calc(1.9 * var(--u)) calc(3.4 * var(--u));
+  font-size: calc(1.4 * var(--u));
+  font-weight: 700;
+  color: #1E1E1E;
+  text-decoration: none;
+  background-color: #F1F1F1;
+  border-radius: 999px;
+  box-shadow:
+    -6px -6px 14px 0px #FFFFFF,
+    6px 6px 16px 0px #AEAEC0;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pulsante-esplora::after {
+  content: "";
+  width: calc(0.9 * var(--u));
+  height: calc(0.9 * var(--u));
+  border-right: calc(0.25 * var(--u)) solid currentColor;
+  border-top: calc(0.25 * var(--u)) solid currentColor;
+  transform: rotate(45deg);
+}
+
+.pulsante-esplora:hover {
+  background-color: #1E1E1E;
+  color: #FFFFFF;
+  box-shadow: none;
+}

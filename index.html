@@ -7,13 +7,14 @@
 
   <title>Home - Il lavoro fantasma</title>
 
+  <link rel="stylesheet" href="styleIndex.css">
   <link rel="stylesheet" href="style.css">
 
   <script src="libraries/p5.min.js"></script>
   <script src="libraries/p5.sound.min.js"></script>
 </head>
 
-<body>
+<body class="home">
 
   <header>
 
@@ -30,6 +31,41 @@
     </nav>
 
   </header>
+
+  <main class="home-contenuto">
+
+    <div class="intestazione"> <!-- nuovo blocco a tutta larghezza: titolo + sottotitolo -->
+      <h1>Prendersi cura<br>degli altri è un lavoro.</h1>
+     <p class="sottotitolo">Anche quando non viene riconosciuto.</p>
+    </div>
+
+    <div class="colonna-testi"> <!-- qui restano numero, descrizione, fonte e bottone -->
+      <div class="numero">
+        <span class="numero-grande">36</span> <!-- il 36 enorme -->
+        <span class="numero-su">su</span> <!-- la parola "su", più piccola -->
+        <span class="numero-grande">100</span> <!-- il 100 enorme -->
+      </div>
+
+      <p class="descrizione">persone prestano aiuto gratuito a qualcuno con cui non convivono.</p> <!-- testo sotto il numero -->
+      <p class="fonte">Italia, 2024 | Popolazione di 18 anni e più | Fonte: ISTAT</p> <!-- testo piccolo -->
+
+      <a href="overview.html" class="pulsante-esplora">ESPLORA I DATI</a> <!-- il bottone: riutilizza la class che già avevi -->
+
+    </div>
+
+    <div class="piastrella"> <!-- colonna di destra: la mattonella del puzzle -->
+
+      <div class="puzzle" id="contenitore-puzzle"></div> <!-- qui dentro metteremo i 100 pallini con p5 -->
+
+      <p class="legenda-titolo">1 pallino = 1 persona su 100</p> <!-- spiegazione sotto il puzzle -->
+      <div class="legenda"> <!-- le due voci della legenda -->
+        <span class="voce-scura">Presta aiuto</span> <!-- pallino scuro -->
+        <span class="voce-chiara">Non presta aiuto</span> <!-- pallino chiaro -->
+      </div>
+
+    </div>
+
+  </main>
 
   <script src="sketchIndex.js"></script>
 
