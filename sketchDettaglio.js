@@ -40,11 +40,34 @@ let raggioFreccia = 20;
 let larghezzaPulsante = 120;
 let distanzaPulsanti = 30;
 
-function setup(){
+// nomi delle tipologie di aiuto e colonne del CSV
+let tipologieAiuto = [
+  ["Economico", "tavola_2_aiuto_economico"],
+  ["Sanitario", "tavola_2_prestazioni_sanitarie"],
+  ["Assistenza adulti", "tavola_2_assistenza_adulti"],
+  ["Accudimento bambini", "tavola_2_accudimento_bambini"],
+  ["Aiuto nello studio", "tavola_2_aiuto_nello_studio"],
+  ["Cibo, vestiario, ecc.", "tavola_2_cibo_vestiario_ecc"],
+  ["Attività domestiche", "tavola_2_attivita_domestiche"],
+  ["Compagnia", "tavola_2_compagnia_accompagnamento_ospitalita"],
+  ["Pratiche burocratiche", "tavola_2_pratiche_burocratiche"],
+  ["Extra domestico", "tavola_2_lavoro_extra_domestico"],
+  ["Uso di internet", "tavola_2_uso_internet_strumenti_digitali"],
+  ["Altro", "tavola_2_altro_aiuto_a_persone"]
+];
+
+// valori delle percentuali
+let valoriAiuto = [];
+
+async function setup(){
   let canvas = createCanvas(windowWidth, windowHeight - altezzaHeader);
   canvas.style('display', 'block');
 
+  database = await loadTable("assets/DatabaseEtaGenere (1).csv", ",", "header");
+
   calcolaMisure();
+
+
 }
 
 function draw(){
@@ -213,6 +236,9 @@ function disegnaContenitoreGrafici(){
 
   drawingContext.restore();
 
+// disegno il grafico della tipologia di aiuto
+  disegnaGraficoTipologiaAiuto();
+
   disegnaFrecce();
 }
 
@@ -335,4 +361,141 @@ function disegnaPulsanti(){
 function mouseSuPulsante(x, y){
   return mouseX >= x && mouseX <= x + larghezzaPulsante &&
          mouseY >= y && mouseY <= y + altezzaSelettore;
+}
+function disegnaGraficoTipologiaAiuto(){
+
+  // leggo i dati del genere e dell'età selezionati
+  leggiDatiAiuto();
+
+  // posizione del secondo box rosa
+  let xBox = margine + paddingContenitore + larghezzaBox[0] + gapBox - scorrimento;
+  let yBox = yContenitore + paddingContenitore;
+
+  let larghezza = larghezzaBox[1];
+
+  // taglio il disegno all'interno del secondo box
+  drawingContext.save();
+  drawingContext.beginPath();
+  drawingContext.roundRect(xBox, yBox, larghezza, altezzaBox, 20);
+  drawingContext.clip();
+
+  noStroke();
+  textFont("Instrument Sans");
+
+  // titolo del grafico
+  fill("#1E1E1E");
+  textStyle(BOLD);
+  textSize(16);
+  textAlign(LEFT, TOP);
+  text("Tipologia di aiuto", xBox + 16, yBox + 18);
+
+  // dimensioni delle due colonne
+  let larghezzaColonna = (larghezza - 48) / 2;
+
+  // distanza verticale tra le tipologie
+  let altezzaRiga = (altezzaBox - 75) / 6;
+
+  // disegno le 12 tipologie
+  for(let i = 0; i < 12; i++){
+
+    // stabilisco in quale colonna disegnare
+    let colonna = 0;
+    let indice = i;
+
+    if(i >= 6){
+      colonna = 1;
+      indice = i - 6;
+    }
+
+    let x = xBox + 16 + colonna * (larghezzaColonna + 16);
+    let y = yBox + 47 + indice * altezzaRiga;
+
+    // nome della tipologia
+    fill("#303030");
+    textStyle(NORMAL);
+    textSize(12);
+    textAlign(LEFT, TOP);
+    text(tipologieAiuto[i][0], x, y);
+
+    // dimensioni della barra
+    let larghezzaBarra = larghezzaColonna - 48;
+    let altezzaBarra = 10;
+
+    let yBarra = y + 19;
+
+    // barra di sfondo bianca
+    noStroke();
+    fill("#FFFFFF");
+    rect(x, yBarra, larghezzaBarra, altezzaBarra, 10);
+
+    // calcolo la lunghezza proporzionale alla percentuale
+    let lunghezzaPiena = map(
+      valoriAiuto[i],
+      0,
+      40,
+      0,
+      larghezzaBarra
+    );
+
+    lunghezzaPiena = min(lunghezzaPiena, larghezzaBarra);
+
+    // barra colorata
+    fill(coloriEta[etaSelezionata]);
+    rect(x, yBarra, lunghezzaPiena, altezzaBarra, 10);
+
+    // percentuale accanto alla barra
+    fill("#1E1E1E");
+    textStyle(BOLD);
+    textSize(12);
+    textAlign(LEFT, CENTER);
+
+    text(
+      round(valoriAiuto[i]) + "%",
+      x + larghezzaBarra + 12,
+      yBarra + altezzaBarra / 2
+    );
+  }
+
+  drawingContext.restore();
+}
+
+function leggiDatiAiuto(){
+
+  // traduco il genere selezionato nel valore del CSV
+  let genereCSV;
+
+  if(genereSelezionato == "DONNA"){
+    genereCSV = "femmine";
+  }else if(genereSelezionato == "UOMO"){
+    genereCSV = "maschi";
+  }else{
+    genereCSV = "entrambi";
+  }
+
+  // traduco la fascia d'età nel valore del CSV
+  let fasciaCSV = fasceEta[etaSelezionata];
+
+  if(fasciaCSV == "75+"){
+    fasciaCSV = "75 e più";
+  }
+
+  // cerco la riga corrispondente nel database
+  for(let i = 0; i < database.getRowCount(); i++){
+
+    if(database.get(i, "genere") == genereCSV &&
+       database.get(i, "fascia_eta") == fasciaCSV){
+
+      // salvo le percentuali delle 12 tipologie
+      valoriAiuto = [];
+
+      for(let j = 0; j < tipologieAiuto.length; j++){
+
+        let valore = database.getNum(i, tipologieAiuto[j][1]);
+
+        valoriAiuto.push(valore);
+      }
+
+      return;
+    }
+  }
 }
